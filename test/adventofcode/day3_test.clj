@@ -7,3 +7,7 @@
   (is (= (move-and-count-houses "^>v<") 4))
   (is (= (move-and-count-houses "^v^v^v^v^v") 2)))
 
+(deftest part2
+  (is (= (move-robot-and-count-houses "^v") 3))
+  (is (= (move-robot-and-count-houses "^>v<") 3))
+  (is (= (move-robot-and-count-houses "^v^v^v^v^v") 11)))
