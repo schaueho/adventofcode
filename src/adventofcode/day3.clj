@@ -54,7 +54,7 @@
        \v (move-and-drop-present worldstate south)
        \> (move-and-drop-present worldstate east)
        \< (move-and-drop-present worldstate west)
-       :default (throw (ex-info "Unknown direction " directionchar))))
+       (throw (ex-info "Unknown direction " directionchar))))
    [world start-state] directionstring))
 
 (defn move-and-count-houses [directionstring]
@@ -63,23 +63,31 @@
       keys
       count))
 
-(defn move-robot-and-drop-present [[world santapos robopos turn] direction]
-  (let [new-coords (direction robopos)]
-    (if (find world new-coords)
-      [(drop-present world new-coords) santapos new-coords :robo]
-      [(-> world
-          (add-house new-coords)
-          (drop-present new-coords))
-       santapos new-coords :robo])))
+;;; part 2
 
-(defn move-santa-and-drop-present [[world santapos robopos turn] direction]
-  (let [new-coords (direction santapos)]
+(defn find-new-coords [[world santapos robopos prevturn] direction]
+  (condp = prevturn
+    :robo (direction santapos)
+    :santa (direction robopos)
+    (throw (ex-info "Unknown turntaker" prevturn))))
+
+(defn new-world [newworld oldsanta oldrobo prevturn new-coords]
+  (condp = prevturn
+    :robo [newworld new-coords oldrobo :santa]
+    :santa [newworld oldsanta new-coords :robo] 
+    (throw (ex-info "Unknown turntaker" prevturn))))
+
+(defn move-santa-or-robot [worldstate direction]
+  (let [[world oldsanta oldrobot prevturn] worldstate
+        new-coords (find-new-coords worldstate direction)]
     (if (find world new-coords)
-      [(drop-present world new-coords) new-coords robopos :santa]
-      [(-> world
+      (-> world
+          (drop-present new-coords)
+          (new-world oldsanta oldrobot prevturn new-coords))
+      (-> world
           (add-house new-coords)
-          (drop-present new-coords))
-       new-coords robopos :santa])))
+          (drop-present new-coords)
+          (new-world oldsanta oldrobot prevturn new-coords)))))
 
 ;; world as before plus santa position, robo position, last turn-taker
 (def robo-world [{[0 0] 2} [0 0] [0 0] :robo])
@@ -88,18 +96,13 @@
   (reduce
    (fn [worldstate directionchar]
      (let [[world santapos robopos prevturn] worldstate]
-       (condp = [prevturn directionchar]
-         [:robo \^] (move-santa-and-drop-present worldstate north)
-         [:robo \v] (move-santa-and-drop-present worldstate south)
-         [:robo \>] (move-santa-and-drop-present worldstate east)
-         [:robo \<] (move-santa-and-drop-present worldstate west)
-         [:santa \^] (move-robot-and-drop-present worldstate north)
-         [:santa \v] (move-robot-and-drop-present worldstate south)
-         [:santa \>] (move-robot-and-drop-present worldstate east)
-         [:santa \<] (move-robot-and-drop-present worldstate west)
-         :default (throw (ex-info "Unknown direction or turntaker " [prevturn directionchar])))))
+       (condp = directionchar
+         \^ (move-santa-or-robot worldstate north)
+         \v (move-santa-or-robot worldstate south)
+         \> (move-santa-or-robot worldstate east)
+         \< (move-santa-or-robot worldstate west)
+         (throw (ex-info "Unknown direction or turntaker " [prevturn directionchar])))))
    robo-world directionstring))
-  
 
 (defn move-robot-and-count-houses [directionstring]
   (-> (move-santa-and-robotsanta directionstring)
