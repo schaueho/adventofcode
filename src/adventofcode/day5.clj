@@ -17,21 +17,20 @@
     false
     (if (get vowels curchar)
       (if (seq? restword)
-        (nice-word-helper restword curchar (conj seenvowels curchar) (or twicearow (= lastchar curchar)))
+        (recur restword curchar (conj seenvowels curchar) (or twicearow (= lastchar curchar)))
         (if (and (or twicearow
                      (= lastchar curchar))
                  (>= (count (conj seenvowels curchar)) 3))
           true
           (and (or twicearow (= lastchar curchar)) (>= (count (conj seenvowels curchar)) 3))))
       (if (seq? restword)
-        (nice-word-helper restword curchar seenvowels (or twicearow (= lastchar curchar)))
+        (recur restword curchar seenvowels (or twicearow (= lastchar curchar)))
         (and (or twicearow (= lastchar curchar)) (>= (count seenvowels) 3))))))
 
 (defn nice-word? [word]
   (if (nice-word-helper word nil [] false)
-    word
+    true
     false))
-  
 
 (defn count-nice-words [inputfile]
   (-> inputfile

@@ -12,5 +12,5 @@
 (deftest part2
   (is (= (part2-nice "qjhvhtzxzqqjkmpb") true))
   (is (= (part2-nice "xxyxx") true))
-  (is (= (part2-nice "uurcxstgmygtbstg") false))
-  (is (= (part2-nice "ieodomkazucvgmuy") false)))
+  (is (= (part2-nice "uurcxstgmygtbstg") nil))
+  (is (= (part2-nice "ieodomkazucvgmuy") nil)))
