@@ -1,5 +1,5 @@
-(ns adventofcode.day2-test
-  (:require [adventofcode.day2 :refer :all]
+(ns adventofcode.2015.day2-test
+  (:require [adventofcode.2015.day2 :refer :all]
             [clojure.test :refer :all]))
 
 (deftest paper-sizes

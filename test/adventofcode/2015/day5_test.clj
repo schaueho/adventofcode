@@ -1,5 +1,5 @@
-(ns adventofcode.day5-test
-  (:require [adventofcode.day5 :refer :all]
+(ns adventofcode.2015.day5-test
+  (:require [adventofcode.2015.day5 :refer :all]
             [clojure.test :refer :all]))
 
 (deftest part1

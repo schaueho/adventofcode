@@ -1,4 +1,4 @@
-(ns adventofcode.day3)
+(ns adventofcode.2015.day3)
 
 (defn slurp-directions [inputfile]
   (-> inputfile

@@ -1,4 +1,4 @@
-(ns adventofcode.day4
+(ns adventofcode.2015.day4
   (:require [pandect.algo.md5 :as md5]))
 
 (defn calc-hash [prefix number]

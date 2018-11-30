@@ -1,4 +1,4 @@
-(ns adventofcode.day2
+(ns adventofcode.2015.day2
   (:require [clojure.string :as s :refer [split-lines split]]
             [adventofcode.core :as core :refer [parse-int]]))
 
