@@ -1,10 +1,10 @@
 (ns adventofcode.day6-test
   (:require [adventofcode.day6 :refer :all]
-            [midje.sweet :refer :all]))
+            [clojure.test :refer :all]))
 
 (deftest part1
   (let [board (make-board [10 10])]
-    (is = (change-board board turn-on 4 5 4 5)
+    (is (= (change-board board turn-on 4 5 4 5)
         [[0 0 0 0 0 0 0 0 0 0]
          [0 0 0 0 0 0 0 0 0 0] 
          [0 0 0 0 0 0 0 0 0 0] 
@@ -14,8 +14,8 @@
          [0 0 0 0 0 0 0 0 0 0] 
          [0 0 0 0 0 0 0 0 0 0] 
          [0 0 0 0 0 0 0 0 0 0] 
-         [0 0 0 0 0 0 0 0 0 0]])
-    (is = (change-lights board "turn on 0,0 through 9,0")
+         [0 0 0 0 0 0 0 0 0 0]]))
+    (is (= (change-lights board "turn on 0,0 through 9,0" part2-ops)
         [[1 0 0 0 0 0 0 0 0 0]
          [1 0 0 0 0 0 0 0 0 0]
          [1 0 0 0 0 0 0 0 0 0]
@@ -25,8 +25,8 @@
          [1 0 0 0 0 0 0 0 0 0]
          [1 0 0 0 0 0 0 0 0 0]
          [1 0 0 0 0 0 0 0 0 0]
-         [1 0 0 0 0 0 0 0 0 0]])
-    (is = (count-lights (change-lights board "turn on 0,0 through 9,0")) 10)))
+         [1 0 0 0 0 0 0 0 0 0]]))
+    (is (= (count-lights (change-lights board "turn on 0,0 through 9,0" part2-ops)) 10))))
 
 
 ;; > (let [board (make-board [1000 1000])]
